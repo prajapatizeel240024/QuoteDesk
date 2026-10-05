@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+/* A parts counter: galvanized-steel desk, white work sheet, graphite ink. Part numbers sit on yellow bin
+   labels in a DIN face, the way they do on warehouse shelves. Red is kept for holds and blocking flags. */
+@theme {
+  --color-desk: #e4e7e9;
+  --color-sheet: #fbfcfc;
+  --color-ink: #22272c;
+  --color-ink-soft: #59626b;
+  --color-rule: #c3cad0;
+  --color-rule-soft: #dde2e6;
+  --color-label: #f4d24e;
+  --color-label-edge: #c9a92a;
+  --color-hold: #b3261e;
+  --color-hold-tint: #fbe9e7;
+  --color-warn: #835500;
+  --color-warn-tint: #fdf3dc;
+  --color-ok: #2e6b3f;
+  --color-ok-tint: #e4f1e7;
+  --color-note: #eef1f3;
+  --font-din: "Bahnschrift", "DIN Alternate", "DIN 2014", "D-DIN", "Roboto Condensed", "Arial Narrow", sans-serif;
+  --font-ui: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  background: var(--color-desk);
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+.figures {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.din {
+  font-family: var(--font-din);
+  font-stretch: 87.5%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .arrive {
+    animation: arrive 360ms ease-out both;
+  }
+  @keyframes arrive {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
+  }
+}

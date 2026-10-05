@@ -1,0 +1,17 @@
+{
+  "id": "rfq-15",
+  "received_at": "2026-10-16T14:45:00Z",
+  "from": {
+    "name": "Sam Achebe",
+    "email": "sachebe@bayfront-marine.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "Quote request - bilge system",
+  "body": "Hi Maya, quote request attached. Thanks.\n\nSam Achebe\nBayfront Marine Works",
+  "attachments": [
+    {
+      "filename": "BMW-Quote-Request-1016.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+  ]
+}

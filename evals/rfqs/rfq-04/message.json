@@ -1,0 +1,12 @@
+{
+  "id": "rfq-04",
+  "received_at": "2026-10-06T18:05:00Z",
+  "from": {
+    "name": "Dee Hollis",
+    "email": "dee.hollis@mailbox.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "parts quote",
+  "body": "Hi Maya,\n\nCould you price out 40 of the 1/2-13 x 2 grade 5 hex bolts, a box of 3/8 hex nuts, and 2 more of the M12 prox sensors, the 4mm PNP ones with the cable. Need them by Friday the 16th if possible.\n\nThanks!\nDee Hollis\nLarkspur Ag Machines",
+  "attachments": []
+}

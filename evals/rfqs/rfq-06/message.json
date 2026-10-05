@@ -1,0 +1,17 @@
+{
+  "id": "rfq-06",
+  "received_at": "2026-10-07T19:55:00Z",
+  "from": {
+    "name": "Lena Fischer",
+    "email": "lfischer@summitpack.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "RFQ - line 4 maintenance stock",
+  "body": "Hello Maya,\n\nAttached is our RFQ for line 4 maintenance stock. Please note the export control column.\n\nBest regards,\nLena Fischer\nSummit Packaging Systems",
+  "attachments": [
+    {
+      "filename": "SPS-RFQ-20261007.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+  ]
+}

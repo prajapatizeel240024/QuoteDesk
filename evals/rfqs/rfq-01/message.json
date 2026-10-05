@@ -1,0 +1,17 @@
+{
+  "id": "rfq-01",
+  "received_at": "2026-10-05T13:12:00Z",
+  "from": {
+    "name": "Priya Raman",
+    "email": "praman@harborpump.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "RFQ 4466 - fastener and sensor restock",
+  "body": "Hi Maya,\n\nPlease quote the attached RFQ 4466. Pricing and lead time by Wednesday if you can.\n\nThanks,\nPriya Raman\nPurchasing, Harbor Pump & Valve Co.\n+1-216-555-0161",
+  "attachments": [
+    {
+      "filename": "HPV-RFQ-4466.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+  ]
+}

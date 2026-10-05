@@ -1,0 +1,17 @@
+{
+  "id": "rfq-03",
+  "received_at": "2026-10-06T13:42:00Z",
+  "from": {
+    "name": "Priya Raman",
+    "email": "praman@harborpump.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "RFQ 4471 - pump rebuild kits",
+  "body": "Hi Maya,\n\nRFQ 4471 is attached for the pump rebuild kits. Need everything by Oct 20 please.\n\nCan you also add 2 of the 1-1/2\" bore x 4\" stroke air cylinders, double acting? Same date.\n\nThanks,\nPriya Raman\nPurchasing, Harbor Pump & Valve Co.\n+1-216-555-0161",
+  "attachments": [
+    {
+      "filename": "HPV-RFQ-4471.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+  ]
+}

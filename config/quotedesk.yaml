@@ -1,0 +1,189 @@
+# QuoteDesk's single source of truth: the synthetic distributor, its customers and their automation rules,
+# pricing rules, and the words used to read RFQs. Every name, .example domain and 555-01xx number is fictional.
+# The parts catalog, stock, costs and suppliers come from the ERP export in data/erp/, not from here.
+
+distributor:
+  name: Alder & Finch Industrial Supply
+  short_name: Alder & Finch
+  domain: alderfinch-supply.example
+  quotes_inbox: quotes@alderfinch-supply.example
+  phone: "+1-216-555-0140"
+  address: "1400 Foundry Way, Cleveland, OH 44114"
+  rep:
+    id: MO
+    name: Maya Ortiz
+    title: Inside sales
+    email: mortiz@alderfinch-supply.example
+  timezone: America/New_York
+  holidays: ["2026-11-26", "2026-11-27", "2026-12-24", "2026-12-25"]
+
+pricing:
+  # Price = cost / (1 - margin). Code does every step in integer cents; Claude never sets a price.
+  tiers:
+    A: { margin_bps: 1800, label: Key account }
+    B: { margin_bps: 2400, label: Standard account }
+    C: { margin_bps: 3000, label: Small account }
+  qty_breaks: # margin comes down as the billed quantity on a line goes up
+    - { min_qty: 100, less_bps: 200 }
+    - { min_qty: 500, less_bps: 400 }
+    - { min_qty: 2000, less_bps: 600 }
+  floor_margin_bps: 1000
+  min_line_cents: 1500
+  lead_time: # business days
+    handling_days: 1
+    transit_days: 2
+  rush: # used only when normal shipping would miss the buyer's date and the stock is on hand
+    handling_days: 0
+    transit_days: 1
+    fee_bps: 1500
+    min_fee_cents: 2500
+  quote_valid_days: 30
+
+certs:
+  vocab:
+    CoC: { label: Certificate of conformance, synonyms: ["coc", "c of c", "c of c's", "cofc", "cert of conformance", "certificate of conformance", "certs of conformance", "conformance cert"] }
+    MTR: { label: Material test report, synonyms: ["mtr", "mtrs", "mill cert", "mill certs", "material cert", "material certs", "material test report", "material test reports"] }
+    RoHS: { label: RoHS declaration, synonyms: ["rohs", "rohs compliant", "rohs cert", "rohs declaration"] }
+    REACH: { label: REACH declaration, synonyms: ["reach", "reach compliant", "reach declaration"] }
+    FAI: { label: First article inspection, synonyms: ["fai", "first article", "first article inspection"] }
+  unspecified: ["yes", "y", "required", "req'd", "reqd", "certs", "certs required", "certs req'd", "certifications required", "x", "need certs"]
+  none: ["no", "n", "none", "n/a", "na", "-", "--", "not required"]
+
+extraction:
+  # Column headers we recognise in spreadsheets and PDF tables (compared lowercased, trimmed, trailing ":" removed).
+  columns:
+    line: ["line", "ln", "line #", "line no", "item #", "item no", "#"]
+    part: ["part #", "part no", "part no.", "part number", "p/n", "pn", "mfr p/n", "mfr part #", "mfr part number", "catalog #", "sku", "your part #", "item number"]
+    description: ["description", "desc", "desc.", "item description", "part description"]
+    qty: ["qty", "qty.", "quantity", "qty req'd", "qty reqd", "order qty", "qty needed"]
+    uom: ["uom", "u/m", "um", "unit", "units"]
+    due: ["need by", "need date", "due", "due date", "required date", "req date", "delivery", "delivery date", "required by"]
+    certs: ["certs", "cert req'd", "certifications", "docs required", "documentation", "certs required"]
+    export: ["export ctrl", "export controlled", "export control", "ec"]
+  uom:
+    EA: ["ea", "each", "pc", "pcs", "piece", "pieces"]
+    FT: ["ft", "feet", "foot", "lf", "'"]
+    PK: ["pk", "pack", "packs", "box", "boxes", "bx", "bag", "bags"]
+  # A row whose first non-empty cell starts with one of these ends a table.
+  stop_rows: ["notes", "note", "comments", "total", "totals", "thank you", "terms"]
+  # Export screening runs before any text goes to Claude. A line that mentions one of these is held for a person.
+  export_screen_terms: ["motion controller", "absolute encoder", "25-bit", "25 bit"]
+
+matching:
+  # Words folded together when comparing a buyer's description with catalog descriptions.
+  synonyms:
+    bolt: screw
+    bolts: screw
+    screws: screw
+    capscrew: screw
+    capscrews: screw
+    nuts: nut
+    washers: washer
+    prox: proximity
+    sensors: sensor
+    valves: valve
+    cylinders: cylinder
+    belts: belt
+    bearings: bearing
+    glands: gland
+    relays: relay
+    fitting: adapter
+    fittings: adapter
+    adapters: adapter
+    orings: o-ring
+    oring: o-ring
+    o-rings: o-ring
+    blocks: block
+    terminals: terminal
+    hoses: hose
+    motors: motor
+    zp: zinc
+    zn: zinc
+    ss: stainless
+    viton: fkm
+    nitrile: buna-n
+    shielded: shield
+    sealed: seal
+  stop_words: [the, of, a, an, for, with, and, x, per, pcs, pc, ea, each, qty, need, please, quote, some, more, those, these, ones, one, we, got, last, time, to, on, our, your, in, inch, ft, pack, box]
+
+customers:
+  - id: C-1001
+    name: Harbor Pump & Valve Co.
+    short_name: Harbor Pump
+    tier: A
+    terms: Net 45
+    domains: [harborpump.example]
+    contacts:
+      - { name: Priya Raman, email: praman@harborpump.example, phone: "+1-216-555-0161" }
+    rules:
+      default_certs: [CoC]
+      substitutes: ask
+      auto_approve:
+        - name: In-stock catalog parts under $500
+          when: { match_method: [rule], stock_covers: true, no_flags: true, line_total_max_cents: 50000 }
+
+  - id: C-1002
+    name: Cedar Ridge Fabrication
+    short_name: Cedar Ridge
+    tier: B
+    terms: Net 30
+    domains: [cedarridgefab.example]
+    contacts:
+      - { name: Tom Kowalski, email: tkowalski@cedarridgefab.example, phone: "+1-330-555-0117" }
+    rules:
+      substitutes: allow
+
+  - id: C-1003
+    name: Larkspur Ag Machines
+    short_name: Larkspur Ag
+    tier: C
+    terms: Net 30
+    domains: [larkspur-ag.example]
+    contacts:
+      - { name: Dee Hollis, email: dhollis@larkspur-ag.example, phone: "+1-419-555-0123" }
+    rules: {}
+
+  - id: C-1004
+    name: Bayfront Marine Works
+    short_name: Bayfront Marine
+    tier: B
+    terms: Net 30
+    domains: [bayfront-marine.example]
+    contacts:
+      - { name: Sam Achebe, email: sachebe@bayfront-marine.example, phone: "+1-216-555-0188" }
+    rules:
+      default_certs: [CoC]
+      quote_valid_days: 15
+
+  - id: C-1005
+    name: Summit Packaging Systems
+    short_name: Summit Packaging
+    tier: A
+    terms: Net 45
+    domains: [summitpack.example]
+    contacts:
+      - { name: Lena Fischer, email: lfischer@summitpack.example, phone: "+1-614-555-0102" }
+    rules:
+      rush_fee_waived: true
+      auto_approve:
+        - name: Bulk consumables in stock under $2,000
+          when: { categories: [fasteners, o-rings, terminals], match_method: [rule], stock_covers: true, no_flags: true, line_total_max_cents: 200000 }
+
+  - id: C-1006
+    name: Tern Robotics Lab
+    short_name: Tern Robotics
+    tier: C
+    terms: Prepaid
+    domains: [ternrobotics.example]
+    contacts:
+      - { name: Jo Park, email: jpark@ternrobotics.example, phone: "+1-412-555-0179" }
+    rules: {}
+
+evals:
+  # Assumptions for the modeled rep time in eval reports. They are estimates, not measurements.
+  time_model:
+    manual_minutes_per_rfq: 6
+    manual_minutes_per_line: 4
+    assisted_minutes_per_rfq: 2
+    assisted_minutes_per_clean_line: 0.5
+    assisted_minutes_per_flagged_line: 2.5
