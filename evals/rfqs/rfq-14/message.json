@@ -1,0 +1,12 @@
+{
+  "id": "rfq-14",
+  "received_at": "2026-10-15T20:20:00Z",
+  "from": {
+    "name": "Jo Park",
+    "email": "jpark@ternrobotics.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "quote for fixture build",
+  "body": "Hi Maya,\n\nWe're building a new test fixture and need a quote on 3 of the 8-axis motion controllers, 20 of the M12 prox sensors (connector version), and a pack of the yellow zinc 1/4-20 x 1 cap screws. Need them by Oct 30.\n\nThanks,\nJo Park\nTern Robotics Lab",
+  "attachments": []
+}

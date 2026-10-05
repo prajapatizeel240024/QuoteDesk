@@ -1,0 +1,17 @@
+{
+  "id": "rfq-12",
+  "received_at": "2026-10-14T18:30:00Z",
+  "from": {
+    "name": "Lena Fischer",
+    "email": "lfischer@summitpack.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "RFQ - urgent line 2 parts",
+  "body": "Maya,\n\nA couple of these are urgent, see the dates.\n\nThanks,\nLena Fischer\nSummit Packaging Systems",
+  "attachments": [
+    {
+      "filename": "SPS-RFQ-20261014.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+  ]
+}

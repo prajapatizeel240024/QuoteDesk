@@ -1,0 +1,17 @@
+{
+  "id": "rfq-07",
+  "received_at": "2026-10-08T13:30:00Z",
+  "from": {
+    "name": "Jo Park",
+    "email": "jpark@ternrobotics.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "Quote request for test cell build",
+  "body": "Hi,\n\nPlease see the attached list for our test cell build. We need pricing by the end of the week.\n\nThanks,\nJo Park\nTern Robotics Lab",
+  "attachments": [
+    {
+      "filename": "Tern-quote-request.pdf",
+      "content_type": "application/pdf"
+    }
+  ]
+}

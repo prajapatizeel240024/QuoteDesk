@@ -1,0 +1,17 @@
+{
+  "id": "rfq-08",
+  "received_at": "2026-10-09T12:15:00Z",
+  "from": {
+    "name": "Tom Kowalski",
+    "email": "tkowalski@cedarridgefab.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "RQ-2304",
+  "body": "Maya, RQ-2304 attached.\n\nTom Kowalski | Purchasing | Cedar Ridge Fabrication\n+1-330-555-0117",
+  "attachments": [
+    {
+      "filename": "CR-RQ-2304.pdf",
+      "content_type": "application/pdf"
+    }
+  ]
+}

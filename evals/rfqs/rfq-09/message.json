@@ -1,0 +1,12 @@
+{
+  "id": "rfq-09",
+  "received_at": "2026-10-12T17:10:00Z",
+  "from": {
+    "name": "Dee Hollis",
+    "email": "dhollis@larkspur-ag.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "Order quote - hydraulic repair",
+  "body": "Maya,\n\nQuote please:\n- 25 ft KF-H2W-06\n- 4 x KF-JM-0606\n- 2 x KF-SV52-025-24D\n- 10 x AF-30304\n\nNeed these 2 weeks ARO.\n\nDee",
+  "attachments": []
+}

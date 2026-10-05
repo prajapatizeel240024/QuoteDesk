@@ -1,0 +1,17 @@
+{
+  "id": "rfq-10",
+  "received_at": "2026-10-13T15:00:00Z",
+  "from": {
+    "name": "Sam Achebe",
+    "email": "sachebe@bayfront-marine.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "Quote request - deck winch service",
+  "body": "Hi Maya, see attached.\n\nSam Achebe\nBayfront Marine Works",
+  "attachments": [
+    {
+      "filename": "BMW-Quote-Request-1013.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+  ]
+}

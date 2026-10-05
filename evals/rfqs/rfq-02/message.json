@@ -1,0 +1,17 @@
+{
+  "id": "rfq-02",
+  "received_at": "2026-10-05T15:40:00Z",
+  "from": {
+    "name": "Tom Kowalski",
+    "email": "tkowalski@cedarridgefab.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "Request for quote RQ-2291",
+  "body": "Maya,\n\nRQ-2291 is attached. Please quote your best lead time.\n\nTom Kowalski | Purchasing | Cedar Ridge Fabrication\n+1-330-555-0117",
+  "attachments": [
+    {
+      "filename": "CR-RQ-2291.pdf",
+      "content_type": "application/pdf"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+id,name,email,phone,default_lead_days
+S-TAL,Tallis Fastener Co.,orders@tallis-fastener.example,+1-216-555-0131,8
+S-ORB,Orbit Motion Components,po@orbit-motion.example,+1-614-555-0144,12
+S-KEL,Keel Fluid Power,purchasing@keel-fluid.example,+1-419-555-0152,10
+S-VAN,Vantor Electric Supply,orders@vantor-electric.example,+1-330-555-0166,15

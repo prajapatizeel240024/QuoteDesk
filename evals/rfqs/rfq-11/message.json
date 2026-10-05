@@ -1,0 +1,17 @@
+{
+  "id": "rfq-11",
+  "received_at": "2026-10-14T14:05:00Z",
+  "from": {
+    "name": "Priya Raman",
+    "email": "praman@harborpump.example"
+  },
+  "to": "quotes@alderfinch-supply.example",
+  "subject": "RFQ 4490",
+  "body": "Hi Maya,\n\nRFQ 4490 attached. Need by 10/28 on all lines.\n\nThanks,\nPriya Raman\nPurchasing, Harbor Pump & Valve Co.\n+1-216-555-0161",
+  "attachments": [
+    {
+      "filename": "HPV-RFQ-4490.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+  ]
+}
