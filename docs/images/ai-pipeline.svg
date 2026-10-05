@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="876" viewBox="0 0 1280 876" role="img" aria-labelledby="title desc">
+  <title id="title">How the AI steps in QuoteDesk work</title>
+  <desc id="desc">Three rows, one per Claude job: reading free text (extract.v1), picking a catalog part (match.v1) and wording the question to the buyer (question.v1). In each row, code prepares the request, a safety step runs before Claude, Claude answers in a fixed JSON shape, code checks the answer, and only then is the result saved. Every call goes through src/server/llm/client.ts, which caches, logs and validates it. Claude never sets a price.</desc>
+  <defs>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #0f172a; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .h1 { font-size: 26px; font-weight: 700; }
+    .sub { font-size: 14.5px; fill: #475569; }
+    .hd { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; fill: #64748b; }
+    .bt { font-size: 13.5px; font-weight: 700; }
+    .s { font-size: 11.5px; fill: #334155; }
+    .m { font-size: 12px; fill: #334155; }
+    .p { font-size: 10.5px; fill: #475569; }
+    .p10 { font-size: 10px; fill: #475569; }
+    .ban { font-size: 13px; fill: #1e3a8a; }
+    .vio { fill: #5b21b6; }
+    .red { fill: #991b1b; }
+    .grn { fill: #065f46; }
+    .amb { fill: #92400e; }
+    .c { text-anchor: middle; }
+    .code { fill: #eff6ff; stroke: #3b82f6; stroke-width: 1.5; }
+    .ai { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 1.5; }
+    .safe { fill: #fff7f7; stroke: #dc2626; stroke-width: 1.5; }
+    .bar { fill: #fff7f7; stroke: #dc2626; stroke-width: 2.4; }
+    .res { fill: #ecfdf5; stroke: #059669; stroke-width: 1.5; }
+    .orc { fill: #fffbeb; stroke: #d97706; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .arrow { stroke: #64748b; stroke-width: 1.6; fill: none; }
+  </style>
+
+  <rect x="0.5" y="0.5" width="1279" height="875" rx="20" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="40" y="52" class="h1">How the AI steps work</text>
+  <text x="40" y="80" class="sub">Three narrow Claude jobs. Code prepares each request, Claude answers in a fixed JSON shape, and code checks every answer before it counts.</text>
+
+  <rect x="40" y="96" width="1200" height="40" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="640" y="121" class="ban c"><tspan font-weight="700">Claude never sets a price.</tspan> None of the three answer schemas has a price field. Every price comes from src/server/pricing/engine.ts, in integer cents.</text>
+
+  <text x="151" y="160" class="hd c">CODE PREPARES</text>
+  <text x="393" y="160" class="hd c">BEFORE CLAUDE</text>
+  <text x="650" y="160" class="hd c">CLAUDE ANSWERS</text>
+  <text x="904" y="160" class="hd c">CHECKED IN CODE</text>
+  <text x="1136" y="160" class="hd c">RESULT</text>
+
+  <!-- Row 1: read free text -->
+  <rect x="40" y="172" width="222" height="140" rx="10" class="code"/>
+  <text x="56" y="196" class="bt">1 · Read free text</text>
+  <text x="56" y="216" class="s">Tables and bullet lines are</text>
+  <text x="56" y="233" class="s">read by rules first. Claude</text>
+  <text x="56" y="250" class="s">is asked only when a line</text>
+  <text x="56" y="267" class="s">looks like an item and no</text>
+  <text x="56" y="284" class="s">rule could read it.</text>
+
+  <rect x="282" y="172" width="222" height="140" rx="10" class="safe"/>
+  <text x="298" y="196" class="bt red">Screen for export terms</text>
+  <text x="298" y="216" class="s">Held clauses are cut from</text>
+  <text x="298" y="233" class="s">the text before Claude sees</text>
+  <text x="298" y="250" class="s">it. Each one becomes</text>
+  <text x="298" y="268" class="p10 mono">[item held for export review]</text>
+
+  <rect x="524" y="172" width="252" height="140" rx="10" class="ai"/>
+  <text x="540" y="196" class="bt mono vio">extract.v1</text>
+  <text x="540" y="216" class="p mono vio">model: MODEL_EXTRACT</text>
+  <text x="540" y="232" class="p10 mono vio">default claude-sonnet-5-5</text>
+  <text x="540" y="252" class="s vio">Copy each field word for</text>
+  <text x="540" y="269" class="s vio">word. Never convert or guess.</text>
+
+  <rect x="796" y="172" width="216" height="140" rx="10" class="safe"/>
+  <text x="812" y="196" class="bt red">Checks in code</text>
+  <text x="812" y="216" class="s">The quote must be in the</text>
+  <text x="812" y="233" class="s">email, each field inside its</text>
+  <text x="812" y="250" class="s">quote. Rule lines win on</text>
+  <text x="812" y="267" class="s">overlap. Code parses qty,</text>
+  <text x="812" y="284" class="s">unit, date and certs.</text>
+
+  <rect x="1032" y="172" width="208" height="140" rx="10" class="res"/>
+  <text x="1048" y="196" class="bt grn">Saved line</text>
+  <text x="1048" y="216" class="p mono grn">extraction_method: claude</text>
+  <text x="1048" y="236" class="s">A missing qty, date or cert</text>
+  <text x="1048" y="253" class="s">type becomes a question for</text>
+  <text x="1048" y="270" class="s">the buyer, never a guess.</text>
+
+  <line x1="263" y1="242" x2="281" y2="242" class="arrow" marker-end="url(#ag)"/>
+  <line x1="505" y1="242" x2="523" y2="242" class="arrow" marker-end="url(#ag)"/>
+  <line x1="777" y1="242" x2="795" y2="242" class="arrow" marker-end="url(#ag)"/>
+  <line x1="1013" y1="242" x2="1031" y2="242" class="arrow" marker-end="url(#ag)"/>
+
+  <!-- Row 2: pick a part -->
+  <rect x="40" y="332" width="222" height="164" rx="10" class="code"/>
+  <text x="56" y="356" class="bt">2 · Pick a part</text>
+  <text x="56" y="376" class="s">Exact part numbers are</text>
+  <text x="56" y="393" class="s">matched by rules. Claude</text>
+  <text x="56" y="410" class="s">sees only ambiguous numbers,</text>
+  <text x="56" y="427" class="s">one-character typos and</text>
+  <text x="56" y="444" class="s">lines with no usable number,</text>
+  <text x="56" y="461" class="s">with their candidates.</text>
+
+  <rect x="282" y="332" width="222" height="164" rx="10" class="safe"/>
+  <text x="298" y="356" class="bt red">Skip held lines</text>
+  <text x="298" y="376" class="s">Lines marked or screened for</text>
+  <text x="298" y="393" class="s">export are never sent.</text>
+  <text x="298" y="410" class="s">The other hard cases go in</text>
+  <text x="298" y="427" class="s">one batched call per RFQ.</text>
+
+  <rect x="524" y="332" width="252" height="164" rx="10" class="ai"/>
+  <text x="540" y="356" class="bt mono vio">match.v1</text>
+  <text x="540" y="376" class="p mono vio">model: MODEL_MATCH</text>
+  <text x="540" y="392" class="p10 mono vio">default claude-haiku-4-5-20251001</text>
+  <text x="540" y="412" class="s vio">Pick one listed SKU or NONE,</text>
+  <text x="540" y="429" class="s vio">with a confidence and quotes</text>
+  <text x="540" y="446" class="s vio">from the request.</text>
+
+  <rect x="796" y="332" width="216" height="164" rx="10" class="bar"/>
+  <text x="812" y="356" class="bt red">The bar: all four</text>
+  <text x="812" y="376" class="s">1. a listed candidate</text>
+  <text x="812" y="393" class="s">2. confidence ≥ 0.80</text>
+  <text x="826" y="410" class="p mono">(MATCH_THRESHOLD)</text>
+  <text x="812" y="427" class="s">3. its quotes appear in</text>
+  <text x="826" y="444" class="s">the request</text>
+  <text x="812" y="461" class="s">4. no size conflict</text>
+
+  <rect x="1032" y="332" width="208" height="164" rx="10" class="res"/>
+  <text x="1048" y="356" class="bt grn">Matched or queued</text>
+  <text x="1048" y="376" class="s">Pass: matched by Claude.</text>
+  <text x="1048" y="393" class="s">Fail: Needs a part, with</text>
+  <text x="1048" y="410" class="s">Claude's suggestion kept</text>
+  <text x="1048" y="427" class="s">for the rep to confirm.</text>
+
+  <line x1="263" y1="414" x2="281" y2="414" class="arrow" marker-end="url(#ag)"/>
+  <line x1="505" y1="414" x2="523" y2="414" class="arrow" marker-end="url(#ag)"/>
+  <line x1="777" y1="414" x2="795" y2="414" class="arrow" marker-end="url(#ag)"/>
+  <line x1="1013" y1="414" x2="1031" y2="414" class="arrow" marker-end="url(#ag)"/>
+
+  <!-- Row 3: ask the buyer -->
+  <rect x="40" y="516" width="222" height="140" rx="10" class="code"/>
+  <text x="56" y="540" class="bt">3 · Ask the buyer</text>
+  <text x="56" y="560" class="s">Lines missing a quantity,</text>
+  <text x="56" y="577" class="s">a need-by date or a cert</text>
+  <text x="56" y="594" class="s">type. Held lines are left</text>
+  <text x="56" y="611" class="s">out.</text>
+
+  <rect x="282" y="516" width="222" height="140" rx="10" class="safe"/>
+  <text x="298" y="540" class="bt red">Minimal input</text>
+  <text x="298" y="560" class="s">Only the buyer's first name,</text>
+  <text x="298" y="577" class="s">the subject, the buyer's words</text>
+  <text x="298" y="594" class="s">and what is missing.</text>
+  <text x="298" y="611" class="s">No prices, no catalog data.</text>
+
+  <rect x="524" y="516" width="252" height="140" rx="10" class="ai"/>
+  <text x="540" y="540" class="bt mono vio">question.v1</text>
+  <text x="540" y="560" class="p mono vio">model: MODEL_WRITE</text>
+  <text x="540" y="576" class="p10 mono vio">default claude-sonnet-5-5</text>
+  <text x="540" y="596" class="s vio">Plain text, under 140 words,</text>
+  <text x="540" y="613" class="s vio">signed with the rep's name.</text>
+
+  <rect x="796" y="516" width="216" height="140" rx="10" class="safe"/>
+  <text x="812" y="540" class="bt red">Checks in code</text>
+  <text x="812" y="560" class="s">Mentions every line</text>
+  <text x="812" y="577" class="s">No price words</text>
+  <text x="812" y="594" class="s">1,500 characters at most</text>
+
+  <rect x="1032" y="516" width="208" height="140" rx="10" class="res"/>
+  <text x="1048" y="540" class="bt grn">Draft for the rep</text>
+  <text x="1048" y="560" class="s">Pass: Claude's draft.</text>
+  <text x="1048" y="577" class="s">Fail or error: the template.</text>
+  <text x="1048" y="594" class="s">The rep copies it.</text>
+  <text x="1048" y="611" class="s">Nothing is sent.</text>
+
+  <line x1="263" y1="586" x2="281" y2="586" class="arrow" marker-end="url(#ag)"/>
+  <line x1="505" y1="586" x2="523" y2="586" class="arrow" marker-end="url(#ag)"/>
+  <line x1="777" y1="586" x2="795" y2="586" class="arrow" marker-end="url(#ag)"/>
+  <line x1="1013" y1="586" x2="1031" y2="586" class="arrow" marker-end="url(#ag)"/>
+
+  <!-- the client contract -->
+  <rect x="40" y="680" width="772" height="136" rx="12" class="ai"/>
+  <text x="56" y="705" class="bt vio">Every call goes through <tspan class="mono">src/server/llm/client.ts</tspan></text>
+  <text x="56" y="728" class="m">1. Look for a saved answer in llm_calls. The key covers model, prompt version, system, user and schema.</text>
+  <text x="56" y="748" class="m">2. If there is none, call the Messages API with a JSON schema (output_config). This needs ANTHROPIC_API_KEY.</text>
+  <text x="56" y="768" class="m">3. Log the response in llm_calls (tokens, latency, stop reason), then check it with zod.</text>
+  <text x="56" y="788" class="m">4. A refusal, a second cut-off or an answer zod rejects is an error, never a guess.</text>
+  <text x="56" y="806" class="m">Without a key the error says to add one, or to set LLM_MODE=oracle to test without Claude.</text>
+
+  <rect x="832" y="680" width="408" height="136" rx="12" class="orc"/>
+  <text x="848" y="705" class="bt amb">Oracle stand-in (tests only)</text>
+  <text x="848" y="728" class="m">LLM_MODE=oracle answers from the eval</text>
+  <text x="848" y="748" class="m">answer keys, so the plumbing can be tested</text>
+  <text x="848" y="768" class="m">without an API key. Its numbers are never</text>
+  <text x="848" y="788" class="m">reported as results. The eval runner refuses</text>
+  <text x="848" y="806" class="m">to use it on the holdout.</text>
+
+  <!-- legend -->
+  <rect x="40" y="837" width="16" height="12" rx="3" class="code"/><text x="62" y="847" class="s">Code</text>
+  <rect x="120" y="837" width="16" height="12" rx="3" class="safe"/><text x="142" y="847" class="s">Safety step</text>
+  <rect x="240" y="837" width="16" height="12" rx="3" class="ai"/><text x="262" y="847" class="s">Claude</text>
+  <rect x="324" y="837" width="16" height="12" rx="3" class="res"/><text x="346" y="847" class="s">Result</text>
+  <rect x="410" y="837" width="16" height="12" rx="3" class="orc"/><text x="432" y="847" class="s">Test-only stand-in</text>
+</svg>
